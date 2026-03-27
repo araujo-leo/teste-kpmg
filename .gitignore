@@ -25,6 +25,9 @@ AGENTS.md
 CLAUDE.md
 GEMINI.md
 boost.json
+.agents/
+.claude/
+.gemini/
 /.fleet
 /.idea
 /.nova
