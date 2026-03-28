@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Form, Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { mask as vMask } from 'vue-the-mask';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/DeleteUser.vue';
 import Heading from '@/components/Heading.vue';
@@ -28,7 +29,6 @@ defineOptions({
         ],
     },
 });
-
 const page = usePage();
 const user = computed(() => page.props.auth.user);
 </script>
@@ -77,6 +77,34 @@ const user = computed(() => page.props.auth.user);
                     placeholder="Email address"
                 />
                 <InputError class="mt-2" :message="errors.email" />
+            </div>
+
+            <div class="grid gap-2">
+                <Label for="telephone">Telephone</Label>
+                <Input
+                    id="telephone"
+                    type="text"
+                    v-mask="'(##) #####-####'"
+                    class="mt-1 block w-full"
+                    name="telephone"
+                    :default-value="user.profile?.telephone"
+                    autocomplete="tel"
+                    placeholder="Telephone"
+                />
+                <InputError class="mt-2" :message="errors.telephone" />
+            </div>
+
+            <div class="grid gap-2">
+                <Label for="role">Role</Label>
+                <Input
+                    id="role"
+                    type="text"
+                    class="mt-1 block w-full"
+                    name="role"
+                    :default-value="user.profile?.role"
+                    placeholder="Role"
+                />
+                <InputError class="mt-2" :message="errors.role" />
             </div>
 
             <div v-if="mustVerifyEmail && !user.email_verified_at">
