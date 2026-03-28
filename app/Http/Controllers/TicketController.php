@@ -4,33 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Ticket;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
+use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TicketController extends Controller
 {
-    public function index() : \Inertia\Response
+    public function index(): Response
     {
         $tickets = Ticket::with(['project.company', 'user', 'detail'])
             ->latest()
             ->paginate(10);
 
         return Inertia::render('tickets/Index', [
-            'tickets' => $tickets
+            'tickets' => $tickets,
         ]);
     }
 
-    public function create() : \Inertia\Response
+    public function show(int $id): Response
+    {
+        $ticket = Ticket::with(['project.company', 'user', 'detail'])
+            ->findOrFail($id);
+
+        return Inertia::render('tickets/Show', [
+            'ticket' => $ticket,
+        ]);
+    }
+
+    public function create(): Response
     {
         $companies = Company::with('projects')->get();
 
         return Inertia::render('tickets/Create', [
-            'companies' => $companies
+            'companies' => $companies,
         ]);
     }
 
-    public function store(Request $request) : \Illuminate\Http\RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'project_id' => 'required|exists:projects,id',
@@ -60,5 +73,16 @@ class TicketController extends Controller
         ]);
 
         return redirect()->route('dashboard')->with('status', 'Ticket created successfully!');
+    }
+
+    public function download(int $id): StreamedResponse
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        if (! $ticket->attachment_path || ! Storage::disk('local')->exists($ticket->attachment_path)) {
+            abort(404, 'Attachment not found.');
+        }
+
+        return Storage::disk('local')->download($ticket->attachment_path);
     }
 }
