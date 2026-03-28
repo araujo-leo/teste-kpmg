@@ -12,7 +12,12 @@ class TicketDetail extends Model
     protected $fillable = [
         'ticket_id',
         'environment',
-        'module'
+        'module',
+        'enriched_data',
+    ];
+
+    protected $casts = [
+        'enriched_data' => 'array',
     ];
 
     public function ticket()

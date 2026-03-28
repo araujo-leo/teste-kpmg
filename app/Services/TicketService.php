@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTOs\TicketDTO;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\ProcessTicketAttachment;
 
 class TicketService
 {
@@ -27,6 +28,10 @@ class TicketService
             'environment' => $dto->environment,
             'module' => $dto->module,
         ]);
+
+        if ($ticket->attachment_path) {
+            ProcessTicketAttachment::dispatch($ticket);
+        }
 
         return $ticket;
     }
