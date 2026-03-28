@@ -23,5 +23,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [TicketController::class, 'store'])->name('tickets.store');
         Route::get('/{ticket}/download', [TicketController::class, 'download'])->name('tickets.download');
         Route::patch('/{ticket}', [TicketController::class, 'update'])->name('tickets.update');
+        Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('tickets.destroy');
     });
 });

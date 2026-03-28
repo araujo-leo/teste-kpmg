@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 
 defineOptions({
@@ -92,6 +92,12 @@ const formatDate = (dateString: string) => {
         minute: '2-digit',
     }).format(date);
 };
+
+const deleteTicket = () => {
+    if (confirm('Are you sure you want to delete this ticket?')) {
+        router.delete(`/tickets/${props.ticket.id}`);
+    }
+};
 </script>
 
 <template>
@@ -112,6 +118,9 @@ const formatDate = (dateString: string) => {
                     </span>
                 </div>
                 <div class="flex items-center gap-2">
+                    <Button variant="destructive" @click="deleteTicket">
+                        Delete
+                    </Button>
                     <Button variant="outline" as-child>
                         <Link :href="`/tickets/${ticket.id}/edit`">
                             Edit
