@@ -11,7 +11,8 @@ class Project extends Model
 
     protected $fillable = [
         'company_id',
-        'name'
+        'name',
+        'manager_id'
     ];
 
     public function company()
@@ -22,5 +23,10 @@ class Project extends Model
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(User::class);
     }
 }
