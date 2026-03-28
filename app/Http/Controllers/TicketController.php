@@ -10,6 +10,17 @@ use Illuminate\Support\Facades\Storage;
 
 class TicketController extends Controller
 {
+    public function index() : \Inertia\Response
+    {
+        $tickets = Ticket::with(['project.company', 'user', 'detail'])
+            ->latest()
+            ->paginate(10);
+
+        return Inertia::render('tickets/Index', [
+            'tickets' => $tickets
+        ]);
+    }
+
     public function create() : \Inertia\Response
     {
         $companies = Company::with('projects')->get();

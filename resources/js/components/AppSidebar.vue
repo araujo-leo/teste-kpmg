@@ -23,6 +23,12 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+
+    {
+        title: 'Tickets',
+        href: '/tickets',
+        icon: LayoutGrid,
+    }
 ];
 
 const footerNavItems: NavItem[] = [
