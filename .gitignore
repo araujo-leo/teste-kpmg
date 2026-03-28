@@ -32,4 +32,5 @@ boost.json
 /.idea
 /.nova
 /.vscode
+.github
 /.zed
