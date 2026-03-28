@@ -18,8 +18,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('/tickets')->group(function () {
         Route::get('/', [TicketController::class, 'index'])->name('tickets.index');
         Route::get('/create', [TicketController::class, 'create'])->name('tickets.create');
+        Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('tickets.edit');
         Route::get('/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
         Route::post('/', [TicketController::class, 'store'])->name('tickets.store');
         Route::get('/{ticket}/download', [TicketController::class, 'download'])->name('tickets.download');
+        Route::patch('/{ticket}', [TicketController::class, 'update'])->name('tickets.update');
     });
 });

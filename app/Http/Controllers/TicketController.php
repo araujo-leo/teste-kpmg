@@ -85,4 +85,56 @@ class TicketController extends Controller
 
         return Storage::disk('local')->download($ticket->attachment_path);
     }
+
+    public function edit(int $id): Response
+    {
+        $ticket = Ticket::with(['project.company', 'detail'])->findOrFail($id);
+        $companies = Company::with('projects')->get();
+
+        return Inertia::render('tickets/Edit', [
+            'ticket' => $ticket,
+            'companies' => $companies,
+        ]);
+    }
+
+    public function update(Request $request, int $id): RedirectResponse
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        $validated = $request->validate([
+            'project_id' => 'required|exists:projects,id',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
+            'status' => 'required|in:open,in_progress,resolved,closed',
+            'environment' => 'nullable|string|max:255',
+            'module' => 'nullable|string|max:255',
+            'attachment' => 'nullable|file|mimes:json,txt,pdf,jpg,jpeg,png|max:5120',
+        ]);
+
+        $attachmentPath = $ticket->attachment_path;
+        if ($request->hasFile('attachment')) {
+            if ($attachmentPath && Storage::disk('local')->exists($attachmentPath)) {
+                Storage::disk('local')->delete($attachmentPath);
+            }
+            $attachmentPath = $request->file('attachment')->store('attachments', 'local');
+        }
+
+        $ticket->update([
+            'project_id' => $validated['project_id'],
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'status' => $validated['status'],
+            'attachment_path' => $attachmentPath,
+        ]);
+
+        $ticket->detail()->updateOrCreate(
+            ['ticket_id' => $ticket->id],
+            [
+                'environment' => $validated['environment'] ?? null,
+                'module' => $validated['module'] ?? null,
+            ]
+        );
+
+        return redirect()->route('tickets.show', $ticket->id)->with('status', 'Ticket updated successfully!');
+    }
 }

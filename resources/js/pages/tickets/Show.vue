@@ -111,11 +111,18 @@ const formatDate = (dateString: string) => {
                         {{ getStatusLabel(ticket.status) }}
                     </span>
                 </div>
-                <Button variant="outline" as-child>
-                    <Link href="/tickets">
-                        Back to List
-                    </Link>
-                </Button>
+                <div class="flex items-center gap-2">
+                    <Button variant="outline" as-child>
+                        <Link :href="`/tickets/${ticket.id}/edit`">
+                            Edit
+                        </Link>
+                    </Button>
+                    <Button variant="outline" as-child>
+                        <Link href="/tickets">
+                            Back to List
+                        </Link>
+                    </Button>
+                </div>
             </div>
 
             <div class="overflow-hidden bg-background shadow-sm sm:rounded-lg border border-border">
