@@ -19,14 +19,7 @@ require __DIR__.'/settings.php';
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('companies', CompanyController::class);
     Route::resource('projects', ProjectController::class);
-    Route::prefix('/tickets')->group(function () {
-        Route::get('/', [TicketController::class, 'index'])->name('tickets.index');
-        Route::get('/create', [TicketController::class, 'create'])->name('tickets.create');
-        Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('tickets.edit');
-        Route::get('/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
-        Route::post('/', [TicketController::class, 'store'])->name('tickets.store');
-        Route::get('/{ticket}/download', [TicketController::class, 'download'])->name('tickets.download');
-        Route::patch('/{ticket}', [TicketController::class, 'update'])->name('tickets.update');
-        Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('tickets.destroy');
-    });
+    Route::get('tickets/{ticket}/download', [TicketController::class, 'download'])->name('tickets.download');
+
+    Route::resource('tickets', TicketController::class);
 });
