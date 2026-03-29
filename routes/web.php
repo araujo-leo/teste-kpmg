@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
-use App\Http\Controllers\TicketController;
 
 Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
@@ -15,6 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__.'/settings.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('companies', CompanyController::class);
     Route::prefix('/tickets')->group(function () {
         Route::get('/', [TicketController::class, 'index'])->name('tickets.index');
         Route::get('/create', [TicketController::class, 'create'])->name('tickets.create');
