@@ -8,6 +8,7 @@ use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\ProjectService;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -46,7 +47,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(StoreProjectRequest $request)
+    public function store(StoreProjectRequest $request): RedirectResponse
     {
         $dto = ProjectDTO::fromRequest($request);
 
@@ -56,7 +57,7 @@ class ProjectController extends Controller
 
     }
 
-    public function edit(int $id)
+    public function edit(int $id): Response
     {
         $project = $this->projectService->getProjectById($id);
         $companies = Company::select('id', 'name')->orderBy('name')->get();
@@ -69,7 +70,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(UpdateProjectRequest $request, int $id)
+    public function update(UpdateProjectRequest $request, int $id): RedirectResponse
     {
         $project = $this->projectService->getProjectById($id);
         $dto = ProjectDTO::fromRequest($request);
@@ -77,5 +78,14 @@ class ProjectController extends Controller
         $this->projectService->updateProject($project, $dto);
 
         return redirect()->route('dashboard')->with('status', 'Project updated successfully!');
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $project = $this->projectService->getProjectById($id);
+
+        $this->projectService->deleteProject($project);
+
+        return redirect()->route('dashboard')->with('status', 'Project deleted successfully!');
     }
 }

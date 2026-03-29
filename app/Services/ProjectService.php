@@ -4,22 +4,23 @@ namespace App\Services;
 
 use App\DTOs\ProjectDTO;
 use App\Models\Project;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ProjectService
 {
-    public function getAllprojects()
+    public function getAllprojects(): LengthAwarePaginator
     {
         return Project::with('company:id,name', 'manager:id,name')->orderBy('name')->paginate(10);
     }
 
-    public function getProjectById(int $id)
+    public function getProjectById(int $id): Project
     {
         return Project::with(['company:id,name', 'manager:id,name', 'tickets:id,project_id,title,status,created_at'])->findOrFail($id);
     }
 
-    public function createProject(ProjectDTO $dto)
+    public function createProject(ProjectDTO $dto): Project
     {
-        $project = Project::create([
+        return $project = Project::create([
             'company_id' => $dto->company_id,
             'name' => $dto->name,
             'code' => $dto->code,
@@ -32,9 +33,9 @@ class ProjectService
         ]);
     }
 
-    public function updateProject(Project $project, ProjectDTO $dto)
+    public function updateProject(Project $project, ProjectDTO $dto): bool
     {
-        $project->update([
+        return $project->update([
             'company_id' => $dto->company_id,
             'name' => $dto->name,
             'code' => $dto->code,
@@ -45,5 +46,10 @@ class ProjectService
             'ends_at' => $dto->ends_at,
             'manager_id' => $dto->manager_id,
         ]);
+    }
+
+    public function deleteProject(Project $project): bool
+    {
+        return $project->delete();
     }
 }

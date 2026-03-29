@@ -29,6 +29,17 @@ class Project extends Model
         'ends_at' => 'date:Y-m-d',
     ];
 
+    public static function booted()
+    {
+        static::deleting(function (Project $project): void {
+            $project->tickets()->delete();
+        });
+
+        static::restoring(function (Project $project): void {
+            $project->tickets()->onlyTrashed()->restore();
+        });
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
