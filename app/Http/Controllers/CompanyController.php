@@ -16,6 +16,15 @@ class CompanyController extends Controller
         protected CompanyService $companyService
     ) {}
 
+    public function index(): Response
+    {
+        $companies = Company::with('projects')->paginate(10);
+
+        return Inertia::render('companies/Index', [
+            'companies' => $companies,
+        ]);
+    }
+
     public function create(): Response
     {
         $companies = Company::with('projects')->get();
