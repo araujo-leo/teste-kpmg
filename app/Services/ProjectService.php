@@ -11,6 +11,12 @@ class ProjectService
     {
         return Project::with('company:id,name', 'manager:id,name')->orderBy('name')->paginate(10);
     }
+
+    public function getProjectById(int $id)
+    {
+        return Project::with(['company:id,name', 'manager:id,name', 'tickets:id,project_id,title,status,created_at'])->findOrFail($id);
+    }
+
     public function createProject(ProjectDTO $dto)
     {
         $project = Project::create([

@@ -25,6 +25,15 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function show(int $id): Response
+    {
+        $project = $this->projectService->getProjectById($id);
+
+        return Inertia::render('projects/Show', [
+            'project' => $project,
+        ]);
+    }
+
     public function create(): Response
     {
         $companies = Company::select('id', 'name')->orderBy('name')->get();
