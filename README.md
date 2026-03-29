@@ -4,6 +4,8 @@ Este é um projeto desenvolvido com Laravel, Inertia.js e Vue.js, utilizando o L
 
 ## Como Iniciar o Projeto
 
+> **Aviso:** Certifique-se de que as portas utilizadas pelos serviços do Laravel Sail (como 80, 3306, 8025 e 5173) estejam livres e não estejam sendo usadas por outras aplicações no seu sistema.
+
 ### 1. Clonar o repositório
 
 ```bash
