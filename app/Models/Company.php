@@ -10,7 +10,11 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'cnpj',
+        'name',
+        'email',
+        'corporate_name',
+        'user_id'
     ];
 
     public function projects()
