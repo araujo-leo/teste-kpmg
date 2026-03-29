@@ -69,4 +69,12 @@ class CompanyController extends Controller
 
         return redirect()->route('dashboard')->with('status', 'Company updated successfully!');
     }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $company = Company::findOrFail($id);
+        $this->companyService->deleteCompany($company);
+
+        return redirect()->route('dashboard')->with('status', 'Company deleted successfully!');
+    }
 }
