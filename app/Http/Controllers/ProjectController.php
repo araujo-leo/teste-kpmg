@@ -16,6 +16,15 @@ class ProjectController extends Controller
         protected ProjectService $projectService
     ) {}
 
+    public function index(): Response
+    {
+        $projects = $this->projectService->getAllprojects();
+
+        return Inertia::render('projects/Index', [
+            'projects' => $projects,
+        ]);
+    }
+
     public function create(): Response
     {
         $companies = Company::select('id', 'name')->orderBy('name')->get();

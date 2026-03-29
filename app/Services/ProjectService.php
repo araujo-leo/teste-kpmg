@@ -7,6 +7,10 @@ use App\Models\Project;
 
 class ProjectService
 {
+    public function getAllprojects()
+    {
+        return Project::with('company:id,name', 'manager:id,name')->orderBy('name')->paginate(10);
+    }
     public function createProject(ProjectDTO $dto)
     {
         $project = Project::create([
