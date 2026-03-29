@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTOs\CompanyDTO;
 use App\Http\Requests\Company\StoreCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company;
 use App\Services\CompanyService;
 use Illuminate\Http\RedirectResponse;
@@ -51,5 +52,21 @@ class CompanyController extends Controller
         return redirect()->route('dashboard')->with('status', 'Company created successfully!');
     }
 
+    public function edit(int $id): Response
+    {
+        $company = Company::with('projects')->findOrFail($id);
 
+        return Inertia::render('companies/Edit', [
+            'company' => $company,
+        ]);
+    }
+
+    public function update(UpdateCompanyRequest $request, int $id): RedirectResponse
+    {
+        $company = Company::findOrFail($id);
+        $dto = CompanyDTO::fromRequest($request);
+        $this->companyService->updateCompany($company, $dto);
+
+        return redirect()->route('dashboard')->with('status', 'Company updated successfully!');
+    }
 }

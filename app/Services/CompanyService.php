@@ -19,4 +19,16 @@ class CompanyService
 
         return $Company;
     }
+
+    public function updateCompany(Company $company, CompanyDTO $dto): Company
+    {
+        $company->update([
+            'cnpj' => $dto->cnpj,
+            'name' => $dto->name,
+            'email' => $dto->email,
+            'corporate_name' => $dto->corporate_name,
+        ]);
+
+        return $company;
+    }
 }
