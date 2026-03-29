@@ -31,4 +31,19 @@ class ProjectService
             'manager_id' => $dto->manager_id,
         ]);
     }
+
+    public function updateProject(Project $project, ProjectDTO $dto)
+    {
+        $project->update([
+            'company_id' => $dto->company_id,
+            'name' => $dto->name,
+            'code' => $dto->code,
+            'description' => $dto->description,
+            'status' => $dto->status,
+            'priority' => $dto->priority,
+            'starts_at' => $dto->starts_at,
+            'ends_at' => $dto->ends_at,
+            'manager_id' => $dto->manager_id,
+        ]);
+    }
 }

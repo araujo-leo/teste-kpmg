@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTOs\ProjectDTO;
 use App\Http\Requests\Project\StoreProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Company;
 use App\Models\User;
 use App\Services\ProjectService;
@@ -53,5 +54,28 @@ class ProjectController extends Controller
 
         return redirect()->route('dashboard')->with('status', 'Ticket created successfully!');
 
+    }
+
+    public function edit(int $id)
+    {
+        $project = $this->projectService->getProjectById($id);
+        $companies = Company::select('id', 'name')->orderBy('name')->get();
+        $users = User::select('id', 'name')->orderBy('name')->get();
+
+        return Inertia::render('projects/Edit', [
+            'project' => $project,
+            'companies' => $companies,
+            'users' => $users,
+        ]);
+    }
+
+    public function update(UpdateProjectRequest $request, int $id)
+    {
+        $project = $this->projectService->getProjectById($id);
+        $dto = ProjectDTO::fromRequest($request);
+
+        $this->projectService->updateProject($project, $dto);
+
+        return redirect()->route('dashboard')->with('status', 'Project updated successfully!');
     }
 }
