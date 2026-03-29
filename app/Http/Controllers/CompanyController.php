@@ -25,6 +25,15 @@ class CompanyController extends Controller
         ]);
     }
 
+    public function show(int $id)
+    {
+        $company = Company::with('projects')->findOrFail($id);
+
+        return Inertia::render('companies/Show', [
+            'company' => $company,
+        ]);
+    }
+
     public function create(): Response
     {
         $companies = Company::with('projects')->get();
@@ -41,4 +50,6 @@ class CompanyController extends Controller
 
         return redirect()->route('dashboard')->with('status', 'Company created successfully!');
     }
+
+
 }
