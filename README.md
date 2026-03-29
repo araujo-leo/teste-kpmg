@@ -2,7 +2,7 @@
 
 Este é um projeto desenvolvido com Laravel, Inertia.js e Vue.js, utilizando o Laravel Sail para facilitar o ambiente de desenvolvimento local usando Docker.
 
-## 🚀 Como Iniciar o Projeto
+## Como Iniciar o Projeto
 
 ### 1. Clonar o repositório
 
@@ -44,3 +44,8 @@ Utilize as seguintes credenciais de teste (criadas pelo comando de seed):
 
 - **Email**: `test@example.com`
 - **Senha**: `password`
+
+### 4. E-mails e Notificações (Mailpit)
+
+Todos os e-mails e notificações processados pelo sistema (como o enriquecimento de dados de tickets via fila) são interceptados localmente pelo Mailpit.
+Para visualizar os e-mails disparados, acesse a interface do Mailpit em: [http://localhost:8025](http://localhost:8025).
