@@ -35,10 +35,15 @@ class TicketProcessedNotification extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $ticketUrl = url("/tickets/{$this->ticket->id}");
+
         return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+            ->subject("Ticket #{$this->ticket->id} Attachment Processed")
+            ->greeting("Hello, {$notifiable->name}!")
+            ->line("Good news! The attachment for the ticket \"{$this->ticket->title}\" has been successfully read and processed by our background system.")
+            ->line('The environment and module details have been updated.')
+            ->action('View Ticket', $ticketUrl)
+            ->line('Thank you for using ServiceHub!');
     }
 
     /**
@@ -51,7 +56,7 @@ class TicketProcessedNotification extends Notification implements ShouldQueue
         return [
             'ticket_id' => $this->ticket->id,
             'title' => $this->ticket->title,
-            'message' => 'O anexo do ticket foi processado com sucesso.',
+            'message' => 'The ticket attachment has been processed successfully.',
         ];
     }
 }

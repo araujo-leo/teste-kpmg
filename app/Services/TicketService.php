@@ -62,6 +62,10 @@ class TicketService
             ]
         );
 
+        if ($ticket->attachment_path) {
+            ProcessTicketAttachment::dispatch($ticket);
+        }
+
         return $ticket;
     }
 

@@ -34,7 +34,5 @@ class ProcessTicketAttachment implements ShouldQueue
             ]);
         }
         $this->ticket->user->notify(new TicketProcessedNotification($this->ticket));
-
-        event(new TicketProcessedNotification($this->ticket));
     }
 }
