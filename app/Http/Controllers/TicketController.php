@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\TicketDTO;
-use App\Http\Requests\StoreTicketRequest;
-use App\Http\Requests\UpdateTicketRequest;
+use App\Http\Requests\Ticket\StoreTicketRequest;
+use App\Http\Requests\Ticket\UpdateTicketRequest;
 use App\Models\Company;
 use App\Models\Ticket;
 use App\Services\TicketService;
