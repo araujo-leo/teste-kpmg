@@ -25,18 +25,23 @@ const mainNavItems: NavItem[] = [
     },
 
     {
-        title: 'Tickets',
-        href: '/tickets',
+        title: 'Companies',
+        href: '/companies',
         icon: LayoutGrid,
     },
 
     {
-        title: 'Companies',
-        href: '/companies',
+        title: 'Projects',
+        href: '/projects',
+        icon: LayoutGrid,
+    },
+
+    {
+        title: 'Tickets',
+        href: '/tickets',
         icon: LayoutGrid,
     }
 ];
-
 </script>
 
 <template>
